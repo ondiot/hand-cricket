@@ -25,18 +25,47 @@ create index if not exists hc_room_players_room_idx on public.hc_room_players(ro
 
 alter table public.hc_rooms enable row level security;
 alter table public.hc_room_players enable row level security;
+
+-- SECURITY DEFINER avoids recursive RLS checks when policies need to test room membership.
+create or replace function public.hc_is_room_member(p_room_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.hc_room_players p
+    where p.room_id = p_room_id
+      and p.user_id = auth.uid()
+  );
+$$;
+
+revoke all on function public.hc_is_room_member(uuid) from public;
+grant execute on function public.hc_is_room_member(uuid) to authenticated;
+
 drop policy if exists hc_rooms_member_read on public.hc_rooms;
-create policy hc_rooms_member_read on public.hc_rooms for select to authenticated
- using (exists(select 1 from public.hc_room_players p where p.room_id=id and p.user_id=auth.uid()));
+create policy hc_rooms_member_read on public.hc_rooms
+  for select to authenticated
+  using (public.hc_is_room_member(id));
+
 drop policy if exists hc_rooms_host_update on public.hc_rooms;
-create policy hc_rooms_host_update on public.hc_rooms for update to authenticated
- using (host_id=auth.uid()) with check (host_id=auth.uid());
+create policy hc_rooms_host_update on public.hc_rooms
+  for update to authenticated
+  using (host_id = auth.uid())
+  with check (host_id = auth.uid());
+
 drop policy if exists hc_players_room_read on public.hc_room_players;
-create policy hc_players_room_read on public.hc_room_players for select to authenticated
- using (exists(select 1 from public.hc_room_players me where me.room_id=room_id and me.user_id=auth.uid()));
+create policy hc_players_room_read on public.hc_room_players
+  for select to authenticated
+  using (public.hc_is_room_member(room_id));
+
 drop policy if exists hc_players_self_update on public.hc_room_players;
-create policy hc_players_self_update on public.hc_room_players for update to authenticated
- using (user_id=auth.uid()) with check (user_id=auth.uid());
+create policy hc_players_self_update on public.hc_room_players
+  for update to authenticated
+  using (user_id = auth.uid())
+  with check (user_id = auth.uid());
 
 create or replace function public.hc_create_room(p_name text,p_max int,p_teams int)
 returns public.hc_rooms language plpgsql security definer set search_path=public as $$
