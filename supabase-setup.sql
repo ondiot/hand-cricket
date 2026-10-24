@@ -46,7 +46,7 @@ begin
  if p_max not between 2 and 12 or p_teams not between 2 and 4 or p_teams>p_max then raise exception 'Invalid room settings'; end if;
  if char_length(trim(p_name)) not between 1 and 20 then raise exception 'Name must be 1-20 characters'; end if;
  loop
-   v_code:=upper(substr(encode(gen_random_bytes(5),'hex'),1,6));
+   v_code:=upper(substr(replace(gen_random_uuid()::text,'-',''),1,6));
    exit when not exists(select 1 from hc_rooms where code=v_code);
  end loop;
  insert into hc_rooms(code,host_id,max_players,team_count) values(v_code,v_uid,p_max,p_teams) returning * into v_room;
