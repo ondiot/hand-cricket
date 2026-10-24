@@ -1,39 +1,34 @@
 # Hand Cricket
 
-A 3D, animated hand cricket game that runs in the browser. No build step, no dependencies.
-
-## Play
-Open `index.html` in any modern browser, or host it on GitHub Pages.
+A 3D animated hand-cricket game that runs in the browser with no build step.
 
 ## Modes
-- **Play vs PC**: you bat first, then the PC chases your target. If your number matches the PC's number, the batter is out.
-- **2 Players (free play)**: both hands, no scoring.
+- **Solo vs PC**: play against the local adaptive AI.
+- **Private online team rooms**: create a room, set a player limit (2–12) and 2–4 teams, then share the six-character room code. No public matchmaking. Players are assigned to teams as they join; the host starts once at least two players have joined.
+- In each online round, every player submits a hand value. Values unique within the round add to their team's score; duplicate values cancel for those players.
 
-## Runs
+## Supabase setup
+1. Create a Supabase project.
+2. In Authentication settings, enable **Anonymous Sign-Ins**.
+3. Run all of `supabase-setup.sql` in the Supabase SQL Editor.
+4. Copy the Project URL and publishable key (or legacy anon key) from Project Settings → API into `config.js`.
+5. Deploy to GitHub Pages or serve through a local HTTP server. Online play does not work from a `file://` URL.
+
+Only the publishable/anon key belongs in `config.js`. **Never put a service-role or secret key in browser code.**
+
+## Hand values
 | Button | Hand pose |
 |---|---|
-| 1-4 | that many fingers |
+| 1–4 | that many fingers |
 | 5 | open palm facing up |
 | 6 | thumbs up |
 | 10 | open palm facing down |
 | 20 | open hand after a chop |
 
-Every number starts with a closed-fist chop, and the fingers open mid-chop.
-
-## PC opponent
-The PC learns your habits (online opponent modeling, no training step):
-- Bowling: picks the number maximizing `P(you play u) * (u + V)`.
-- Batting: picks the number maximizing `(1 - P(you bowl v)) * (v + V)`.
-- First 5 balls use a balanced mix, and 15% of picks stay random.
-- Tune `V`, `DECAY` and `EPS` near the top of the AI section in `script.js`.
-- Learned data is saved in `localStorage` (key `hcAI`). Clear site data to reset it.
-
-## Deploy on GitHub Pages
-1. Push these files to a repo.
-2. Settings -> Pages -> Deploy from branch -> `main` / root.
-3. Open the URL GitHub gives you.
-
 ## Files
-- `index.html`: page structure and overlays
-- `style.css`: styles and 3D hand CSS
-- `script.js`: 3D cube hand, animations, game logic, PC AI
+- `index.html`: game and private-room UI
+- `style.css`: layout and 3D hand styles
+- `script.js`: animations, solo game, PC AI
+- `online.js`: Supabase private-room client
+- `config.js`: public Supabase configuration
+- `supabase-setup.sql`: schema, RLS, and database RPC functions
