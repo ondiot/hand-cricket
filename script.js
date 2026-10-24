@@ -88,7 +88,7 @@ function fit(){document.querySelectorAll('.side').forEach(s=>s.style.setProperty
   [1,2,3,4,5,6,10,20].forEach(n=>{const b=document.createElement('button');b.textContent=n;b.onclick=()=>press(p,n);c.appendChild(b)});
 });
 const VALS=[1,2,3,4,5,6,10,20];
-let mode='free',G=null,locked=false;
+let mode='pc',G=null,locked=false;
 const $=id=>document.getElementById(id);
 function resetHands(){[1,2].forEach(p=>{const h=$('h'+p);timers[p].forEach(clearTimeout);timers[p]=[];busy[p]=false;h.style.transform='translateX(0)';h.querySelector('.rig').style.transform='';h.querySelectorAll('.sc').forEach(f=>f.classList.remove('up'));h.querySelectorAll('.pos')[4].style.transform=THUMB(-22);$('b'+p).classList.remove('on')})}
 function openMenu(){$('menu').hidden=false;$('result').hidden=true}
