@@ -29,6 +29,6 @@
   if(room.state?.picks?.[uid]){banner('Pick already sent');return;}sending=true;show(1,n);$('c1').parentElement.classList.add('off');
   try{let r=await db.rpc('hc_submit_pick',{p_room_id:room.id,p_value:n});if(r.error)throw r.error;room=r.data;banner('Pick locked');await refresh();}catch(e){banner('Pick failed');$('tgt').textContent=e.message;}finally{sending=false;$('c1').parentElement.classList.remove('off');}
  };
- const originalStart=window.startGame;window.startGame=function(m){if(m==='pc'){if(room)window.leaveOnlineRoom();originalStart(m);$('opponentLabel').textContent='PC';}else originalStart(m);};
+ const originalStart=window.startGame;window.startGame=function(m){if(m==='pc'){if(channel&&db)db.removeChannel(channel);channel=null;room=null;players=[];originalStart(m);$('opponentLabel').textContent='PC';}else originalStart(m);};
  const originalMenu=window.openMenu;window.openMenu=function(){if(room){if(room.status==='lobby')$('roomPanel').hidden=false;else $('roomPanel').hidden=false;$('topbar').hidden=true;}else originalMenu();};
 })();
