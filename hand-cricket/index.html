@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hand Cricket</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar" id="topbar" hidden><div class="sc you"><span>You</span><b id="yS">0</b></div><div class="mid"><div id="inn"></div><div class="meter"><i id="meterFill"></i></div><small id="tgt"></small></div><div class="sc pc"><span>PC</span><b id="pS">0</b></div></div>
+<h1>Hand Cricket<button class="ob mb" onclick="openMenu()">☰ Menu</button></h1>
+<p class="sub">Hand cricket: 1–4 fingers · 5 palm up · 6 thumbs up · 10 palm down · 20 chop</p>
+
+<div class="stage" id="stage">
+  <div class="side p1"><div class="desk"></div><div class="badge" id="b1"></div><div class="hand" id="h1"></div></div>
+  <div class="side p2"><div class="desk"></div><div class="badge" id="b2"></div><div class="hand" id="h2"></div></div>
+</div>
+
+<div class="controls">
+  <div class="panel p1c"><h2 id="pn1">Player 1</h2><div class="btns" id="c1"></div></div>
+  <div class="panel p2c"><h2 id="pn2">Player 2</h2><div class="btns" id="c2"></div></div>
+</div>
+
+<div class="banner" id="banner"></div>
+<div class="menu" id="menu"><h2>Hand Cricket</h2><p class="sub">The Classic Game of Memory</p><button class="big" onclick="startGame('pc')">Play vs PC</button><button class="big alt" onclick="startGame('free')">2 Players (free play)</button></div>
+<div class="result" id="result" hidden><h2 id="resT"></h2><p id="resS" class="sub"></p><button class="big" onclick="startGame('pc')">Play again</button><button class="big alt" onclick="openMenu()">Menu</button></div>
+<script src="script.js"></script>
+</body>
+</html>

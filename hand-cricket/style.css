@@ -1,0 +1,51 @@
+:root{--bg:#f4f1ea;--card:#fff;--ink:#1c1c1c;--a:#e8590c;--b:#1971c2;--line:#cfc7b6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16171a;--card:#202226;--ink:#f1f1f1;--line:#3a3d43}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center}
+h1{font-size:1.4rem;margin:18px 0 4px}
+p.sub{margin:0 0 10px;opacity:.7;font-size:.9rem}
+.stage{position:relative;display:flex;justify-content:space-between;max-width:900px;margin:0 auto;height:240px;overflow:hidden;border-bottom:2px dashed var(--line)}
+.side{position:relative;width:46%;height:100%}
+.desk{position:absolute;left:0;right:0;top:calc(50% + 34px * var(--s,1));height:6px;border-radius:3px;background:var(--line)}
+.hand{position:absolute;inset:0;perspective:900px;transition:transform .45s cubic-bezier(.2,1.4,.4,1)}
+.hand *{transform-style:preserve-3d}
+.mirror{position:absolute;top:50%;width:0;height:0}
+.p1 .mirror{left:26%;transform:scale(var(--s,1)) rotateX(-16deg) rotateY(-30deg)}
+.p2 .mirror{left:74%;transform:scale(var(--s,1)) scaleX(-1) rotateX(-16deg) rotateY(-30deg)}
+.pos{position:absolute;left:0;top:0;width:0;height:0;transition:transform .3s}
+.rig{transition:transform .55s cubic-bezier(.3,1.3,.5,1)}
+.sc{transform-origin:0 0;transform:scaleX(.28);transition:transform .22s cubic-bezier(.3,1.6,.5,1)}
+.sc.up{transform:scaleX(1)}
+.box{position:absolute;left:0;top:0;width:0;height:0}
+.face{position:absolute;left:50%;top:50%;border:1px solid rgba(0,0,0,.4)}
+.badge{position:absolute;top:2px;font-size:2.4rem;font-weight:800;opacity:0;transition:opacity .2s,transform .2s;transform:scale(.4);z-index:2}
+.p1 .badge{left:22%;color:var(--a)}.p2 .badge{right:22%;color:var(--b)}
+.badge.on{opacity:1;transform:scale(1)}
+.controls{display:flex;max-width:900px;margin:14px auto;gap:8px;padding:0 8px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;flex:1}
+.panel h2{margin:0 0 8px;font-size:1rem}
+.btns{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+button{font:inherit;font-weight:700;width:46px;height:46px;border:0;border-radius:12px;color:#fff;cursor:pointer;transition:transform .1s}
+button:active{transform:scale(.88)}
+.p1c button{background:var(--a)}.p2c button{background:var(--b)}
+button.ob{width:auto;padding:0 18px;height:40px;background:#444 !important}
+.topbar{display:flex;align-items:center;gap:10px;max-width:900px;margin:0 auto;padding:10px 12px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.topbar[hidden]{display:none}
+.topbar .sc{min-width:64px;text-align:center}
+.topbar .sc span{display:block;font-size:.75rem;opacity:.7}
+.topbar .sc b{font-size:1.8rem}
+.topbar .you b{color:var(--a)}.topbar .pc b{color:var(--b)}
+.topbar .mid{flex:1;text-align:center;font-size:.85rem}
+.meter{height:10px;border-radius:5px;background:var(--line);overflow:hidden;margin:6px 0 3px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--b));transition:width .4s}
+.panel.off{opacity:.45;pointer-events:none}
+.menu,.result{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px}
+.menu[hidden],.result[hidden]{display:none}
+.menu h2,.result h2{font-size:2.2rem;margin:0}
+button.big{width:250px;height:54px;font-size:1.1rem;background:var(--a)}
+button.big.alt{background:var(--b)}
+button.mb{height:30px;font-size:.8rem;vertical-align:middle;margin-left:8px;padding:0 12px}
+.banner{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%) scale(.6);font-size:3rem;font-weight:900;color:#e03131;opacity:0;pointer-events:none;transition:all .25s;z-index:10;text-shadow:0 2px 0 rgba(0,0,0,.2);white-space:nowrap}
+.banner.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+@media (max-width:520px){.controls{flex-direction:column}.stage{height:190px}}
