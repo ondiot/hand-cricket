@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hand Cricket</title>
 <link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
 </head>
 <body>
 <div class="topbar" id="topbar" hidden><div class="sc you"><span>You</span><b id="yS">0</b></div><div class="mid"><div id="inn"></div><div class="meter"><i id="meterFill"></i></div><small id="tgt"></small></div><div class="sc pc"><span>PC</span><b id="pS">0</b></div></div>
@@ -22,8 +24,11 @@
 </div>
 
 <div class="banner" id="banner"></div>
-<div class="menu" id="menu"><h2>Hand Cricket</h2><p class="sub">The Classic Game of Memory</p><button class="big" onclick="startGame('pc')">Play vs PC</button><button class="big alt" onclick="startGame('free')">2 Players (free play)</button></div>
+<div class="menu" id="menu"><h2>Hand Cricket</h2><p class="sub">The Classic Game of Memory</p><button class="big" onclick="startGame('pc')">Solo vs PC</button><button class="big alt" onclick="showOnlineSetup()">Private Room · Online</button><p class="sub">Room codes only · host-configurable teams</p></div>
+<div class="dialog" id="onlineSetup" hidden><div class="dialog-card"><button class="close" onclick="hideOnlineSetup()">×</button><h2>Private online match</h2><label>Your name<input id="playerName" maxlength="20" value="Player"></label><label>Maximum players<select id="maxPlayers"><option>2</option><option selected>4</option><option>6</option><option>8</option><option>10</option><option>12</option></select></label><label>Teams<select id="teamCount"><option selected>2</option><option>3</option><option>4</option></select></label><button class="big" onclick="createOnlineRoom()">Create room</button><label>Room code<input id="joinCode" maxlength="6" placeholder="ABC123"></label><button class="big alt" onclick="joinOnlineRoom()">Join room</button><p id="onlineMessage"></p></div></div>
+<div class="room-panel" id="roomPanel" hidden><div class="room-card"><button class="close" onclick="leaveOnlineRoom()">×</button><p>PRIVATE ROOM CODE</p><div class="room-code" id="roomCodeDisplay">------</div><button class="copy-code" onclick="copyRoomCode()">Copy code</button><p id="roomStatus">Waiting…</p><div id="roomPlayers"></div><p id="roomRules"></p><button class="big" id="startOnlineButton" onclick="startOnlineMatch()" hidden>Start match</button><button class="big alt" onclick="leaveOnlineRoom()">Leave room</button></div></div>
 <div class="result" id="result" hidden><h2 id="resT"></h2><p id="resS" class="sub"></p><button class="big" onclick="startGame('pc')">Play again</button><button class="big alt" onclick="openMenu()">Menu</button></div>
 <script src="script.js"></script>
+<script src="online.js"></script>
 </body>
 </html>
